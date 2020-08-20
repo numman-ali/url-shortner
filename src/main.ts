@@ -1,16 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MongooseExceptionFilter } from './filters/mongoose-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalFilters(new MongooseExceptionFilter())
   app.setGlobalPrefix('api');
 
   const configService = app.get(ConfigService);
   const port = configService.get('app.port');
+  const host = configService.get('app.host');
+  const dev = configService.get('app.dev');
+  if (dev) app.enableCors();
 
   if (configService.get('app.env') !== 'production') {
     const options = new DocumentBuilder()
@@ -29,5 +30,8 @@ async function bootstrap() {
   }
 
   await app.listen(port);
+  console.log(`Access the client${dev ? '' : ' and server'} app at http://${host}:${dev ? 8080 : port}`)
+  if (dev) console.log(`Access the server app at http://${host}:${port}`)
+
 }
 bootstrap();

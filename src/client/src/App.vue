@@ -1,13 +1,48 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <template v-if="isAuthenticated">
+        <router-link  to="/">Home</router-link> |
+        <button @click="logoutUser">Logout</button>
+      </template>
+      <template v-else>
+        <router-link to="/register">Register</router-link> |
+        <router-link to="/login">Login</router-link>
+      </template>
+
     </div>
     <router-view/>
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class App extends Vue {
+  get isAuthenticated(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
+
+  mounted() {
+    this.axios.interceptors.response.use((response) => response, async (error) => {
+      console.log(error.response);
+      if (error.response.status === 401) {
+        await this.logoutUser();
+      }
+      return Promise.reject(error);
+    });
+    if (process.env.NODE_ENV !== 'production') {
+      this.axios.defaults.baseURL = `http://localhost:${process.env.PORT || 3000}`;
+    }
+  }
+
+  async logoutUser() {
+    await this.$store.dispatch('removeToken');
+    await this.$router.push('/login');
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

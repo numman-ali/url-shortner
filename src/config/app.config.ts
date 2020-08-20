@@ -2,7 +2,7 @@ import { registerAs } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 
 export const appConfig = registerAs('app', () => ({
-  env: process.env.NODE_ENV,
+  dev: process.env.NODE_ENV !== 'production',
   port: parseInt(process.env.PORT, 10),
   host: process.env.HOST,
   jwtSecret: process.env.JWT_SECRET,
