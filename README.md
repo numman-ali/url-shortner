@@ -14,12 +14,12 @@ working across the whole stack and even the deployment of the app, because what'
 than seeing people use your application?
 
 I mention the details of the app below, but I know, and it's a fact, that there is 
-always improvements to be made. I mean why else was version number created! Jokes aside,
+always improvements to be made. I mean why else were version numbers created! Jokes aside,
 my aim is to be the best that I can be. I've read over the Primary Bid spec at least
 6 times now, and I'm sure it's the place I need to be. I want to be in a high performing
-environment, I want help make magic and work with some amazing people. 
+environment, help make magic and work with some amazing people. 
 
-Looking forward to breaking down this app with yourselves and knowing where I can better myself. 
+Looking forward to breaking down this app with yourselves and knowing where I can better myself!
 
 Speak soon, Numman 
 
@@ -37,7 +37,7 @@ It has the following abilities:
     - Modular config with parsing and validation of envs
 - Users Module
     - Has user service to accompany registration
-    - holds the user model
+    - Holds the user model with type annotations
 - Urls Module
     - Controller hands all requests from user (protected by JwtGuard) and serializes response with UrlDto
     - Service handles creation, retrieval and deletion of saved URLs
