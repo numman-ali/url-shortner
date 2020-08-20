@@ -27,6 +27,7 @@ export default class App extends Vue {
   mounted() {
     this.axios.interceptors.response.use((response) => response, async (error) => {
       console.log(error.response);
+      if (error.response.config.url.includes('/login') || error.response.config.url.includes('/register')) return Promise.reject(error);
       if (error.response.status === 401) {
         await this.logoutUser();
       }
@@ -39,7 +40,7 @@ export default class App extends Vue {
 
   async logoutUser() {
     await this.$store.dispatch('removeToken');
-    await this.$router.push('/login');
+    await this.$router.push('/login', () => alert('Your login has expired, so you will be logged out!'));
   }
 }
 </script>

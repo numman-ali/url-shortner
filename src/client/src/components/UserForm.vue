@@ -38,12 +38,12 @@ export default class UserForm extends Vue {
       await this.axios.post('/api/auth/register', { email: this.email, password: this.password });
       await this.login();
     } catch (err) {
+      console.log('An error occurred trying to register.', err);
       if (err.response.status === 409) {
         alert('This email address has already been registered!');
       } else {
         alert('An unknown error occurred, please contact support!');
       }
-      console.log(err.response);
     }
   }
 
@@ -53,12 +53,12 @@ export default class UserForm extends Vue {
       await this.$store.dispatch('setToken', response.data.access_token);
       await this.$router.push('/');
     } catch (err) {
+      console.log('An error occurred trying to login.', err.message);
       if (err.response.status === 401) {
         alert('Unauthorised, please check your details!');
       } else {
         alert('An unknown error occurred, please contact support!');
       }
-      console.log(err.response);
     }
   }
 }

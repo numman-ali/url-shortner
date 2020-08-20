@@ -42,12 +42,10 @@ export default class LinkShortner extends Vue {
   async beforeMount() {
     try {
       const response = await this.axios.get('/api/urls');
-      console.log(response.data);
-
       this.shortenedUrls = response.data;
     } catch (err) {
-      alert('An error occurred, please refresh the page.');
       console.log('An error occurred trying to load shortened URLs', err);
+      if (!err.message.includes(401)) alert('An error occurred, please refresh the page.');
     }
   }
 
@@ -64,8 +62,8 @@ export default class LinkShortner extends Vue {
       this.shortenedUrls.unshift(response.data);
       this.url = '';
     } catch (err) {
-      alert('An error occurred, please try again.');
       console.log('An error occurred trying to shorten the url.', err);
+      if (!err.message.includes(401)) alert('An error occurred, please try again.');
     }
   }
 
@@ -74,8 +72,8 @@ export default class LinkShortner extends Vue {
       await this.axios.delete(`/api/urls/${id}`);
       this.shortenedUrls = this.shortenedUrls.filter(({ _id }) => _id !== id);
     } catch (err) {
-      alert('An error occurred, please try again.');
       console.log('An error occurred trying to delete the url.', err);
+      if (!err.message.includes(401)) alert('An error occurred, please try again.');
     }
   }
 }
