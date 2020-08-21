@@ -39,9 +39,9 @@ It has the following abilities:
     - Has user service to accompany registration
     - Holds the user model with type annotations
 - Urls Module
-    - Controller hands all requests from user (protected by JwtGuard) and serializes response with UrlDto
+    - Controller handles all requests from user (protected by JwtGuard) and serializes response with UrlDto
     - Service handles creation, retrieval and deletion of saved URLs
-    - PreSave on typegoose model saves the shortId to DB
+    - PreSave on typegoose model adds the shortId (checking it's unique) to the document
     - Unit testing written thoroughly in Jest for this module
 - AppModule
     - Builds the whole app and serves the client side Vue SPA
@@ -49,7 +49,7 @@ It has the following abilities:
     you can view at http://localhost:3000/api
 - Typegoose
     - Types mongoose schemas to allow for DRY code to be written
-- All written in TypeScript with through type checking
+- All written in TypeScript with thorough type checking
     
 #### VueJS
 - TypeScript throughout the app
@@ -58,7 +58,7 @@ It has the following abilities:
 - Vue router used for navigation and secured by beforeEnter methods
 - UserForm reused in registration and login, switched based on FormType enum
 - LinkShortner is a self-contained component which handles the url shortening functionality of the app 
-- Axios-Instance implemented to allow for easy configuration
+- Axios-Instance implemented to allow for easy configuration such as Authorization headers after login
 
 #### Docker
 - Single dockerfile which installs all npm modules, build the vue app and serves everything from the Nest app
