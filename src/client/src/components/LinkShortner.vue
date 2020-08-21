@@ -26,6 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { AxiosResponse } from 'axios';
 
 interface ShortenedUrl {
   _id: string;
@@ -41,7 +42,7 @@ export default class LinkShortner extends Vue {
 
   async beforeMount() {
     try {
-      const response = await this.axios.get('/api/urls');
+      const response: AxiosResponse = await this.axios.get('/api/urls');
       this.shortenedUrls = response.data;
     } catch (err) {
       console.log('An error occurred trying to load shortened URLs', err);
@@ -58,7 +59,7 @@ export default class LinkShortner extends Vue {
     }
 
     try {
-      const response = await this.axios.post('/api/urls', { url: this.url });
+      const response: AxiosResponse = await this.axios.post('/api/urls', { url: this.url });
       this.shortenedUrls.unshift(response.data);
       this.url = '';
     } catch (err) {

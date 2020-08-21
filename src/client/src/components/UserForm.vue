@@ -13,6 +13,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import FormType from '@/helpers/FormType.enum';
+import { AxiosResponse } from 'axios';
 
 @Component
 export default class UserForm extends Vue {
@@ -33,7 +34,7 @@ export default class UserForm extends Vue {
     }
   }
 
-  async register() {
+  async register(): Promise<void> {
     try {
       await this.axios.post('/api/auth/register', { email: this.email, password: this.password });
       await this.login();
@@ -47,9 +48,9 @@ export default class UserForm extends Vue {
     }
   }
 
-  async login() {
+  async login(): Promise<void> {
     try {
-      const response = await this.axios.post('api/auth/login', { email: this.email, password: this.password });
+      const response: AxiosResponse = await this.axios.post('api/auth/login', { email: this.email, password: this.password });
       await this.$store.dispatch('setToken', response.data.access_token);
       await this.$router.push('/');
     } catch (err) {

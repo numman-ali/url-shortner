@@ -38,7 +38,7 @@ export default class App extends Vue {
     }
   }
 
-  async logoutUser() {
+  async logoutUser(): Promise<void> {
     await this.$store.dispatch('removeToken');
     await this.$router.push('/login', () => alert('Your login has expired, so you will be logged out!'));
   }
