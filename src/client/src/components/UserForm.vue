@@ -3,7 +3,10 @@
     <h2>{{ formType }}</h2>
     <p v-if="formType === FormType.LOGIN">
       Don't have an account? Register <router-link to="/register">here</router-link>
-      </p>
+    </p>
+    <p v-if="formType === FormType.REGISTER">
+      Already have an account? Login <router-link to="/login">here</router-link>
+    </p>
     <div>
       <input placeholder="Email" type="email" name="email" v-model="email">
       <input
