@@ -81,7 +81,7 @@ The server endpoint will be http://localhost:3000/api
 
 For installing node_modules run 
 ```bash
-$ npm install && cd ./src/client && npm install && cd ../../
+$ npm install
 ```
 
 NOTE: You must have a local mongod running if you are not running using docker-compose.
