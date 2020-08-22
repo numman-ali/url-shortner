@@ -3,7 +3,10 @@
     <p>
       Enter the URL you would like to have shortened below:
     </p>
-    <input placeholder="URL" id="url" type="text" name="url" v-model="url">
+    <input
+      @keypress.enter="shortenUrl"
+      placeholder="URL" id="url" type="text" name="url" v-model="url"
+    >
     <button @click="shortenUrl">Make Short</button>
     <template  v-if="shortenedUrls.length">
       <h3>Your shortened URLs</h3>
