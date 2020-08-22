@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <LinkShortner/>
+    <UrlShortner/>
   </div>
 </template>
 
 <script lang="ts">
-import LinkShortner from '@/components/LinkShortner.vue';
+import UrlShortner from '@/components/UrlShortner.vue';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   name: 'Home',
   components: {
-    LinkShortner,
+    UrlShortner,
   },
 })
 export default class Home extends Vue {}

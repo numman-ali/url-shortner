@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h1>Link Shortner</h1>
+      <h1>URL Shortner</h1>
       <template v-if="isAuthenticated">
         <div>
           <p>{{ user.email }}</p>

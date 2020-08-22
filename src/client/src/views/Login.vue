@@ -10,12 +10,12 @@ import FormType from '@/helpers/FormType.enum';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  name: 'Register',
+  name: 'Login',
   components: {
     UserForm,
   },
 })
-export default class HelloWorld extends Vue {
+export default class Login extends Vue {
   formType = FormType.LOGIN;
 }
 </script>

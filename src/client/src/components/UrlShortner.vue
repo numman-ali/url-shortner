@@ -35,7 +35,7 @@ interface ShortenedUrl {
 }
 
 @Component
-export default class LinkShortner extends Vue {
+export default class UrlShortner extends Vue {
   url = '';
 
   shortenedUrls: ShortenedUrl[] = [];

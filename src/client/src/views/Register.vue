@@ -15,7 +15,7 @@ import { Component, Vue } from 'vue-property-decorator';
     UserForm,
   },
 })
-export default class HelloWorld extends Vue {
+export default class Register extends Vue {
   formType = FormType.REGISTER;
 }
 </script>
