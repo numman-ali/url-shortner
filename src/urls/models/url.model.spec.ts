@@ -1,23 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InjectModel, TypegooseModule } from 'nestjs-typegoose';
+import { getModelToken, TypegooseModule } from 'nestjs-typegoose';
 import { Url } from './url.model';
-import { Injectable } from '@nestjs/common';
-import { ReturnModelType } from '@typegoose/typegoose';
 import * as mongoose from 'mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CustomConfigModule } from '../../config/custom-config.module';
 const { Types: { ObjectId } } = mongoose;
 
-@Injectable()
-export class TestService {
-  constructor(@InjectModel(Url) private readonly urlModel: ReturnModelType<typeof Url>) {}
-  async create(url: string, userId: string): Promise<Url> {
-    return await this.urlModel.create({ longUrl: url, userId });
-  }
-}
-
 describe('UrlModel', () => {
-  let service: TestService;
+  let urlModel: any;
   let document;
 
   beforeEach(async () => {
@@ -35,22 +25,20 @@ describe('UrlModel', () => {
         }),
         TypegooseModule.forFeature([Url])
       ],
-
-      providers: [TestService],
     }).compile();
 
-    service = module.get<TestService>(TestService);
+    urlModel = module.get(getModelToken('Url'));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(urlModel).toBeDefined();
   });
 
-  describe('Creating a document', () => {
+  describe('and it', () => {
     beforeAll(async () => {
       const userId = (new ObjectId()).toString();
       const url = 'https://google.com';
-      document = await service.create(url, userId);
+      document = await urlModel.create({ longUrl: url, userId });
     });
 
     it('should save a new document', async () => {
@@ -65,6 +53,14 @@ describe('UrlModel', () => {
 
     it('should have a shortId of 8 alphanumeric lowercase characters', async () => {
       expect(document.shortId).toStrictEqual(expect.stringMatching(/^[a-zA-Z0-9]{8,}$/));
+    });
+
+    it('should return URL document', async () => {
+      expect((await urlModel.findOne({_id: document._id})).toObject()).toEqual(document.toObject());
+    });
+
+    it('should return URL document', async () => {
+      expect(await urlModel.deleteOne({_id: document._id })).toEqual({ n: 1, ok: 1, deletedCount: 1 })
     });
   })
 
