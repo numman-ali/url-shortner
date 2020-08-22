@@ -1,11 +1,7 @@
 FROM node:12-alpine
 
-WORKDIR /app/src/client
-
-COPY src/client/package*.json ./
-RUN npm install
-
 WORKDIR /app
+RUN mkdir -p src/client
 COPY package*.json ./
 RUN npm install
 
