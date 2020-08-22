@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h1>Link Shortner</h1>
     <p>
       Enter the URL you would like to have shortened below:
     </p>
     <input placeholder="URL" id="url" type="text" name="url" v-model="url">
     <button @click="shortenUrl">Make Short</button>
-    <template  v-if="shortenedUrls.length"></template>
-    <h3>Your shortened URLs</h3>
-    <hr>
+    <template  v-if="shortenedUrls.length">
+      <h3>Your shortened URLs</h3>
+      <hr>
+    </template>
     <template v-for="url in shortenedUrls">
       <div :key="url._id">
         <p>{{ url.longUrl }}</p>

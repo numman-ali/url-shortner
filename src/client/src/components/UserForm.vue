@@ -1,9 +1,15 @@
 <template>
   <div>
     <h2>{{ formType }}</h2>
+    <p v-if="formType === FormType.LOGIN">
+      Don't have an account? Register <router-link to="/register">here</router-link>
+      </p>
     <div>
       <input placeholder="Email" type="email" name="email" v-model="email">
-      <input placeholder="Password" type="password" name="password" v-model="password">
+      <input
+        placeholder="Password" type="password" name="password" v-model="password"
+        @keydown.enter="submitForm"
+      >
     </div>
     <br>
     <button @click="submitForm">Submit</button>
@@ -17,6 +23,8 @@ import { AxiosResponse } from 'axios';
 
 @Component
 export default class UserForm extends Vue {
+  private FormType = FormType;
+
   @Prop() private formType!: FormType;
 
   private email = '';
@@ -51,7 +59,11 @@ export default class UserForm extends Vue {
   async login(): Promise<void> {
     try {
       const response: AxiosResponse = await this.axios.post('api/auth/login', { email: this.email, password: this.password });
-      await this.$store.dispatch('setToken', response.data.access_token);
+      const update: { token: string; user: object } = {
+        token: response.data.access_token,
+        user: response.data.user,
+      };
+      await this.$store.dispatch('setUser', update);
       await this.$router.push('/');
     } catch (err) {
       console.log('An error occurred trying to login.', err.message);

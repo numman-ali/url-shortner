@@ -1,15 +1,13 @@
 <template>
   <div id="app">
     <div id="nav">
+      <h1>Link Shortner</h1>
       <template v-if="isAuthenticated">
-        <router-link  to="/">Home</router-link> |
-        <button @click="logoutUser">Logout</button>
+        <div>
+          <p>{{ user.email }}</p>
+          <button @click="logoutUser()">Logout</button>
+        </div>
       </template>
-      <template v-else>
-        <router-link to="/register">Register</router-link> |
-        <router-link to="/login">Login</router-link>
-      </template>
-
     </div>
     <router-view/>
   </div>
@@ -24,12 +22,16 @@ export default class App extends Vue {
     return this.$store.getters.isAuthenticated;
   }
 
+  get user(): { email: string } {
+    return this.$store.getters.getUser;
+  }
+
   mounted() {
     this.axios.interceptors.response.use((response) => response, async (error) => {
       console.log(error.response);
       if (error.response.config.url.includes('/login') || error.response.config.url.includes('/register')) return Promise.reject(error);
       if (error.response.status === 401) {
-        await this.logoutUser();
+        await this.logoutUser(true);
       }
       return Promise.reject(error);
     });
@@ -38,9 +40,10 @@ export default class App extends Vue {
     }
   }
 
-  async logoutUser(): Promise<void> {
+  async logoutUser(withAlert = false): Promise<void> {
+    const alertFn = () => alert('Your login has expired, so you will be logged out!');
     await this.$store.dispatch('removeToken');
-    await this.$router.push('/login', () => alert('Your login has expired, so you will be logged out!'));
+    await this.$router.push('/login', withAlert ? alertFn : undefined);
   }
 }
 </script>
@@ -54,7 +57,7 @@ export default class App extends Vue {
 }
 
 #nav {
-  padding: 30px;
+  padding: 10px;
 }
 
 #nav a {

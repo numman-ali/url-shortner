@@ -26,9 +26,10 @@ export class AuthService {
     return null;
   }
 
-  login(user: { email: string, _id: mongoose.Types.ObjectId }): { access_token: string } {
+  login(user: { email: string, _id: mongoose.Types.ObjectId }): { user: { email: string }, access_token: string } {
     const payload = { email: user.email, _id: user._id };
     return {
+      user: { email: user.email },
       access_token: this.jwtService.sign(payload),
     };
   }
