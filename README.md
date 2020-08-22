@@ -121,6 +121,8 @@ and all major functionality of the app (ie the link shortening).
 I wished to write tests for the Vue app but did not have te experience necessary
 but hope to grow my knowledge in the area.
 
+NOTE: You must have a local mongod running to pass the UrlModel tests.
+
 ```bash
 # Run unit tests for nestJS application
 $ npm run test
