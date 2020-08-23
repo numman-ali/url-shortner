@@ -11,9 +11,9 @@ async function bootstrap() {
   const port = configService.get('app.port');
   const host = configService.get('app.host');
   const dev = configService.get('app.dev');
-  if (dev) app.enableCors();
 
-  if (configService.get('app.env') !== 'production') {
+  if (dev) {
+    app.enableCors();
     const options = new DocumentBuilder()
       .setTitle('URL Shortner API')
       .setDescription(`This is the backend API which deals with saving and handling shortened URLs.`)
@@ -22,8 +22,8 @@ async function bootstrap() {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
-          description: 'Log into the Producer App. Get the token from cookies under auth_jwt_token. Remove "Bearer%20" before adding.' },
-        'Producer JWT Token')
+          description: 'Retrieve a JWT token by making a POST request to "/api/auth/login" route with a valid email and password.' },
+        'JWT Token')
       .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/api', app, document);
